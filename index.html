@@ -186,9 +186,28 @@
       border-radius:999px;
       display:inline-block;
     }
-    .badge.status-open{background:#fff7ed}
-    .badge.status-ongoing{background:#eff6ff}
-    .badge.status-resolved{background:#ecfdf5}
+    .status-btn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      font-size:12px;
+      padding:5px 10px;
+      border-radius:999px;
+      color:#334155;
+      transition:.15s ease;
+    }
+    .status-btn:hover{
+      transform:translateY(-1px);
+      opacity:.95;
+    }
+    .status-open{
+      background:#fff7ed;
+    }
+    .status-ongoing{
+      background:#eff6ff;
+    }
+    .status-resolved{
+      background:#ecfdf5;
+    }
     .delete{
       border:none;
       background:transparent;
@@ -356,7 +375,7 @@
   <script>
     const STORAGE_KEY = "daily-task-concern-tracker-v1";
     const concernBuckets = [
-      "Opendental","Dexis","Aquisition","PBN","XRAY","Scanner","PRINTER","WIFI","Comcast","Overjet","Weave","Arini","Teams","Other"
+      "Opendental","Dexis","Aquisition","PBN","XRAY","Scanner","PRINTER","WIFI","Comcast","OverJet","Weave","Arini","Teams","Other"
     ];
 
     const todayString = () => new Date().toISOString().slice(0, 10);
@@ -400,10 +419,27 @@
 
     let state = loadState();
 
+    function normalizeBucketName(bucket){
+      if(bucket === "Ovverjet" || bucket === "Overjet") return "OverJet";
+      return bucket;
+    }
+
     function loadState(){
       try{
         const saved = localStorage.getItem(STORAGE_KEY);
-        return saved ? JSON.parse(saved) : structuredClone(defaultState);
+        const loaded = saved ? JSON.parse(saved) : structuredClone(defaultState);
+
+        loaded.tasks = (loaded.tasks || []).map(task => ({
+          ...task,
+          bucket: normalizeBucketName(task.bucket)
+        }));
+
+        loaded.concerns = (loaded.concerns || []).map(concern => ({
+          ...concern,
+          bucket: normalizeBucketName(concern.bucket)
+        }));
+
+        return loaded;
       }catch(e){
         return structuredClone(defaultState);
       }
@@ -465,34 +501,34 @@
     }
 
     function renderConcerns(concernsToday){
-  const concernList = el("concernList");
-  if(!concernsToday.length){
-    concernList.innerHTML = `<div class="muted-empty">No concerns logged for this date. Against all odds, peace.</div>`;
-    return;
-  }
-  concernList.innerHTML = concernsToday.map(item => `
-    <div class="concern-item">
-      <div class="concern-head">
-        <div>
-          <p class="concern-title">${escapeHtml(item.title)}</p>
-          ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
-          <div class="badges">
-            <span class="badge">${escapeHtml(item.bucket)}</span>
-            <button
-              class="badge status-${item.status.toLowerCase()}"
-              onclick="cycleConcernStatus('${item.id}')"
-              style="cursor:pointer;border:none;"
-              title="Click to change status"
-            >
-              ${escapeHtml(item.status)}
-            </button>
+      const concernList = el("concernList");
+      if(!concernsToday.length){
+        concernList.innerHTML = `<div class="muted-empty">No concerns logged for this date. Against all odds, peace.</div>`;
+        return;
+      }
+
+      concernList.innerHTML = concernsToday.map(item => `
+        <div class="concern-item">
+          <div class="concern-head">
+            <div>
+              <p class="concern-title">${escapeHtml(item.title)}</p>
+              ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
+              <div class="badges">
+                <span class="badge">${escapeHtml(normalizeBucketName(item.bucket))}</span>
+                <button
+                  class="status-btn status-${item.status.toLowerCase()}"
+                  onclick="cycleConcernStatus('${item.id}')"
+                  title="Click to change status"
+                >
+                  ${escapeHtml(item.status)}
+                </button>
+              </div>
+            </div>
+            <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
           </div>
         </div>
-        <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
-      </div>
-    </div>
-  `).join("");
-}
+      `).join("");
+    }
 
     function renderRecentDone(){
       const list = el("recentDoneList");
@@ -511,7 +547,7 @@
           <div class="done-head">
             <div>
               <p class="done-title">${escapeHtml(task.title)}</p>
-              <div class="small">${escapeHtml(task.bucket)} • ${escapeHtml(task.date)}</div>
+              <div class="small">${escapeHtml(normalizeBucketName(task.bucket))} • ${escapeHtml(task.date)}</div>
             </div>
             <div>✅</div>
           </div>
@@ -541,8 +577,16 @@
     function drawChart(){
       const counts = {};
       concernBuckets.forEach(b => counts[b] = 0);
-      state.tasks.forEach(t => counts[t.bucket] = (counts[t.bucket] || 0) + 1);
-      state.concerns.forEach(c => counts[c.bucket] = (counts[c.bucket] || 0) + 1);
+
+      state.tasks.forEach(t => {
+        const bucket = normalizeBucketName(t.bucket);
+        counts[bucket] = (counts[bucket] || 0) + 1;
+      });
+
+      state.concerns.forEach(c => {
+        const bucket = normalizeBucketName(c.bucket);
+        counts[bucket] = (counts[bucket] || 0) + 1;
+      });
 
       const data = Object.entries(counts).filter(([,v]) => v > 0);
       const canvas = el("chart");
@@ -614,16 +658,20 @@
     function addTask(){
       const title = el("taskTitle").value.trim();
       const details = el("taskDetails").value.trim();
-      const bucket = el("taskBucket").value;
+      const bucket = normalizeBucketName(el("taskBucket").value);
       if(!title) return;
+
       state.tasks.unshift({
         id: crypto.randomUUID(),
-        title, details, bucket,
+        title,
+        details,
+        bucket,
         date: state.selectedDate,
         createdAt: new Date().toISOString(),
         completedAt: null,
         done: false
       });
+
       el("taskTitle").value = "";
       el("taskDetails").value = "";
       el("taskBucket").value = "Opendental";
@@ -633,14 +681,19 @@
     function addConcern(){
       const title = el("concernTitle").value.trim();
       const note = el("concernNote").value.trim();
-      const bucket = el("concernBucket").value;
+      const bucket = normalizeBucketName(el("concernBucket").value);
       const status = el("concernStatus").value;
       if(!title) return;
+
       state.concerns.unshift({
         id: crypto.randomUUID(),
-        title, note, bucket, status,
+        title,
+        note,
+        bucket,
+        status,
         date: state.selectedDate
       });
+
       el("concernTitle").value = "";
       el("concernNote").value = "";
       el("concernBucket").value = "Opendental";
@@ -667,6 +720,24 @@
       render();
     }
 
+    function cycleConcernStatus(id){
+      const order = ["Open", "Ongoing", "Resolved"];
+
+      state.concerns = state.concerns.map(c => {
+        if(c.id !== id) return c;
+
+        const currentIndex = order.indexOf(c.status);
+        const nextStatus = order[(currentIndex + 1) % order.length];
+
+        return {
+          ...c,
+          status: nextStatus
+        };
+      });
+
+      render();
+    }
+
     function downloadData(){
       const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
       const url = URL.createObjectURL(blob);
@@ -689,9 +760,13 @@
     window.toggleTask = toggleTask;
     window.deleteTask = deleteTask;
     window.deleteConcern = deleteConcern;
+    window.cycleConcernStatus = cycleConcernStatus;
 
     populateBucketSelects();
-    el("selectedDate").addEventListener("change", e => { state.selectedDate = e.target.value; render(); });
+    el("selectedDate").addEventListener("change", e => {
+      state.selectedDate = e.target.value;
+      render();
+    });
     el("addTaskBtn").addEventListener("click", addTask);
     el("addConcernBtn").addEventListener("click", addConcern);
     el("downloadBtn").addEventListener("click", downloadData);
