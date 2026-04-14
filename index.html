@@ -465,27 +465,34 @@
     }
 
     function renderConcerns(concernsToday){
-      const concernList = el("concernList");
-      if(!concernsToday.length){
-        concernList.innerHTML = `<div class="muted-empty">No concerns logged for this date. Against all odds, peace.</div>`;
-        return;
-      }
-      concernList.innerHTML = concernsToday.map(item => `
-        <div class="concern-item">
-          <div class="concern-head">
-            <div>
-              <p class="concern-title">${escapeHtml(item.title)}</p>
-              ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
-              <div class="badges">
-                <span class="badge">${escapeHtml(item.bucket)}</span>
-                <span class="badge status-${item.status.toLowerCase()}">${escapeHtml(item.status)}</span>
-              </div>
-            </div>
-            <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
+  const concernList = el("concernList");
+  if(!concernsToday.length){
+    concernList.innerHTML = `<div class="muted-empty">No concerns logged for this date. Against all odds, peace.</div>`;
+    return;
+  }
+  concernList.innerHTML = concernsToday.map(item => `
+    <div class="concern-item">
+      <div class="concern-head">
+        <div>
+          <p class="concern-title">${escapeHtml(item.title)}</p>
+          ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
+          <div class="badges">
+            <span class="badge">${escapeHtml(item.bucket)}</span>
+            <button
+              class="badge status-${item.status.toLowerCase()}"
+              onclick="cycleConcernStatus('${item.id}')"
+              style="cursor:pointer;border:none;"
+              title="Click to change status"
+            >
+              ${escapeHtml(item.status)}
+            </button>
           </div>
         </div>
-      `).join("");
-    }
+        <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
+      </div>
+    </div>
+  `).join("");
+}
 
     function renderRecentDone(){
       const list = el("recentDoneList");
