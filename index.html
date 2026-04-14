@@ -14,23 +14,33 @@
       --accent:#1e293b;
       --soft:#f1f5f9;
       --good:#166534;
-      --warn:#92400e;
+      --warn:#b45309;
+      --warn-bg:#fff7ed;
       --danger:#b91c1c;
+      --danger-bg:#fef2f2;
+      --fast:#15803d;
+      --ontime:#2563eb;
+      --delay:#ea580c;
+      --critical:#dc2626;
       --shadow:0 8px 24px rgba(15,23,42,.06);
       --radius:20px;
     }
+
     *{box-sizing:border-box}
+
     body{
       margin:0;
       font-family:Inter,Segoe UI,Arial,sans-serif;
       background:var(--bg);
       color:var(--text);
     }
+
     .wrap{
       max-width:1400px;
       margin:0 auto;
       padding:20px;
     }
+
     .topbar{
       display:flex;
       justify-content:space-between;
@@ -39,28 +49,33 @@
       flex-wrap:wrap;
       margin-bottom:18px;
     }
+
     h1{
       margin:0;
       font-size:clamp(28px,4vw,42px);
       line-height:1.1;
     }
+
     .sub{
       color:var(--muted);
       margin-top:8px;
       max-width:760px;
     }
+
     .controls{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       align-items:center;
     }
+
     .chipbox,.btn,.input,.select,.textarea{
       border:1px solid var(--line);
       background:#fff;
       border-radius:16px;
       font:inherit;
     }
+
     .chipbox{
       padding:11px 14px;
       display:flex;
@@ -68,6 +83,7 @@
       gap:10px;
       box-shadow:var(--shadow);
     }
+
     .btn{
       padding:12px 16px;
       cursor:pointer;
@@ -76,107 +92,145 @@
       color:#fff;
       transition:.18s ease;
     }
+
     .btn:hover{transform:translateY(-1px)}
+
     .btn.secondary{
       background:#fff;
       color:var(--text);
     }
+
     .stats{
       display:grid;
       grid-template-columns:repeat(4,1fr);
       gap:14px;
       margin-bottom:18px;
     }
+
     .card{
       background:var(--card);
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
     }
+
     .stat{
       padding:18px;
     }
+
     .label{
       color:var(--muted);
       font-size:14px;
     }
+
     .value{
       margin-top:8px;
       font-size:34px;
       font-weight:700;
     }
+
     .hint{
       margin-top:8px;
       color:var(--muted);
       font-size:12px;
     }
+
     .grid{
       display:grid;
       grid-template-columns:1.1fr 1.4fr 1fr;
       gap:18px;
       align-items:start;
     }
+
     .section{
       padding:18px;
     }
+
     .section h2{
       margin:0 0 14px 0;
       font-size:22px;
     }
-    .stack{display:flex; flex-direction:column; gap:10px}
+
+    .stack{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
     .input,.select,.textarea{
       width:100%;
       padding:12px 14px;
       outline:none;
     }
+
     .textarea{
       min-height:90px;
       resize:vertical;
     }
+
     .row{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:10px;
     }
-    .task-item,.concern-item,.done-item{
+
+    .task-item,.concern-item,.done-item,.resolved-item{
       border:1px solid var(--line);
       background:#fff;
       border-radius:18px;
       padding:14px;
     }
-    .task-head,.concern-head,.done-head{
+
+    .warning-item{
+      border:2px solid var(--warn);
+      background:var(--warn-bg);
+    }
+
+    .critical-item{
+      border:2px solid var(--danger);
+      background:var(--danger-bg);
+    }
+
+    .task-head,.concern-head,.done-head,.resolved-head{
       display:flex;
       justify-content:space-between;
       align-items:flex-start;
       gap:10px;
     }
+
     .task-left{
       display:flex;
       gap:12px;
       align-items:flex-start;
       min-width:0;
+      flex:1;
     }
-    .task-title,.concern-title,.done-title{
+
+    .task-title,.concern-title,.done-title,.resolved-title{
       font-weight:600;
       margin:0;
       word-break:break-word;
     }
+
     .task-title.done{
       text-decoration:line-through;
       color:#94a3b8;
     }
+
     .small{
       font-size:12px;
       color:var(--muted);
       margin-top:6px;
       line-height:1.45;
     }
+
     .badges{
       display:flex;
       gap:8px;
       flex-wrap:wrap;
       margin-top:10px;
     }
+
     .badge{
       font-size:12px;
       border:1px solid var(--line);
@@ -186,6 +240,7 @@
       border-radius:999px;
       display:inline-block;
     }
+
     .status-btn{
       cursor:pointer;
       border:1px solid var(--line);
@@ -194,20 +249,56 @@
       border-radius:999px;
       color:#334155;
       transition:.15s ease;
+      background:#fff;
     }
+
     .status-btn:hover{
       transform:translateY(-1px);
       opacity:.95;
     }
-    .status-open{
+
+    .status-open{background:#fff7ed}
+    .status-ongoing{background:#eff6ff}
+    .status-resolved{background:#ecfdf5}
+
+    .severity-warning{
       background:#fff7ed;
+      color:#9a3412;
+      border-color:#fdba74;
     }
-    .status-ongoing{
+
+    .severity-critical{
+      background:#fef2f2;
+      color:#991b1b;
+      border-color:#fca5a5;
+      font-weight:600;
+    }
+
+    .response-fast{
+      background:#f0fdf4;
+      color:#166534;
+      border-color:#86efac;
+    }
+
+    .response-ontime{
       background:#eff6ff;
+      color:#1d4ed8;
+      border-color:#93c5fd;
     }
-    .status-resolved{
-      background:#ecfdf5;
+
+    .response-delayed{
+      background:#fff7ed;
+      color:#c2410c;
+      border-color:#fdba74;
     }
+
+    .response-critical{
+      background:#fef2f2;
+      color:#b91c1c;
+      border-color:#fca5a5;
+      font-weight:600;
+    }
+
     .delete{
       border:none;
       background:transparent;
@@ -215,7 +306,11 @@
       cursor:pointer;
       font-size:18px;
     }
-    .delete:hover{color:var(--danger)}
+
+    .delete:hover{
+      color:var(--danger)
+    }
+
     .list{
       display:flex;
       flex-direction:column;
@@ -225,24 +320,29 @@
       overflow:auto;
       padding-right:3px;
     }
+
     .muted-empty{
       color:var(--muted);
       font-size:14px;
       padding:10px 0;
     }
+
     .bucket-list{
       display:flex;
       gap:8px;
       flex-wrap:wrap;
     }
+
     .chart-wrap{
       display:grid;
       place-items:center;
       min-height:280px;
     }
+
     canvas{
       max-width:100%;
     }
+
     .template{
       border:1px dashed var(--line);
       background:var(--soft);
@@ -253,15 +353,29 @@
       line-height:1.6;
       margin-top:14px;
     }
+
+    .response-card{
+      margin-top:18px;
+    }
+
+    .response-meta{
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:10px;
+      line-height:1.5;
+    }
+
     .foot{
       margin-top:18px;
       color:var(--muted);
       font-size:14px;
     }
+
     @media (max-width:1100px){
       .stats{grid-template-columns:repeat(2,1fr)}
       .grid{grid-template-columns:1fr}
     }
+
     @media (max-width:640px){
       .stats{grid-template-columns:1fr}
       .row{grid-template-columns:1fr}
@@ -274,7 +388,7 @@
     <div class="topbar">
       <div>
         <h1>Daily Task & Concern Tracker</h1>
-        <div class="sub">Log what you do, mark it done, sort concerns by bucket, and see simple daily analysis. A small survival tool for work, because apparently memory alone was not enough.</div>
+        <div class="sub">Log your tasks, track concerns, move resolved issues out of the active list, and measure response time with a visual graph. Because apparently people now need dashboards to remember what happened 20 minutes ago.</div>
       </div>
       <div class="controls">
         <div class="chipbox">
@@ -359,24 +473,45 @@
           <h2>Recent Completed Tasks</h2>
           <div class="list" id="recentDoneList" style="max-height:260px;"></div>
         </div>
+      </div>
+    </div>
 
-        <div class="card section">
-          <h2>Date Template</h2>
-          <div class="template" id="dateTemplate"></div>
-        </div>
+    <div class="grid" style="grid-template-columns:1fr 1fr; margin-top:18px;">
+      <div class="card section">
+        <h2>Resolved Concerns</h2>
+        <div class="list" id="resolvedConcernList" style="max-height:260px;"></div>
+      </div>
+
+      <div class="card section">
+        <h2>Date Template</h2>
+        <div class="template" id="dateTemplate"></div>
+      </div>
+    </div>
+
+    <div class="card section response-card">
+      <h2>Response Time Tracker</h2>
+      <div class="response-meta">
+        Fast = under 5 mins • On Time = 5 to 10 mins • Delayed = over 10 mins • Critical = 4 hours or more
+      </div>
+      <div class="chart-wrap" style="min-height:340px;">
+        <canvas id="responseChart" width="1200" height="360"></canvas>
       </div>
     </div>
 
     <div class="foot">
-      Saved in your browser using local storage. It stays on this device unless you clear the browser data or download the JSON file and wander off with it.
+      Saved in your browser using local storage. It stays on this device unless you clear the browser data or download the JSON file and lose it to the void.
     </div>
   </div>
 
   <script>
-    const STORAGE_KEY = "daily-task-concern-tracker-v1";
+    const STORAGE_KEY = "daily-task-concern-tracker-v3";
     const concernBuckets = [
       "Opendental","Dexis","Aquisition","PBN","XRAY","Scanner","PRINTER","WIFI","Comcast","OverJet","Weave","Arini","Teams","Other"
     ];
+
+    const WARNING_HOURS = 3;
+    const CRITICAL_HOURS = 9;
+    const RESPONSE_CRITICAL_MINUTES = 240;
 
     const todayString = () => new Date().toISOString().slice(0, 10);
     const nowTime = () => new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
@@ -412,7 +547,9 @@
           note: "Device fails during document scan and may need vendor app check.",
           bucket: "Scanner",
           date: todayString(),
-          status: "Ongoing"
+          status: "Ongoing",
+          createdAt: new Date().toISOString(),
+          resolvedAt: null
         }
       ]
     };
@@ -421,7 +558,7 @@
 
     function normalizeBucketName(bucket){
       if(bucket === "Ovverjet" || bucket === "Overjet") return "OverJet";
-      return bucket;
+      return bucket || "Other";
     }
 
     function loadState(){
@@ -431,12 +568,18 @@
 
         loaded.tasks = (loaded.tasks || []).map(task => ({
           ...task,
-          bucket: normalizeBucketName(task.bucket)
+          bucket: normalizeBucketName(task.bucket),
+          createdAt: task.createdAt || new Date().toISOString(),
+          completedAt: task.completedAt || null,
+          done: !!task.done
         }));
 
         loaded.concerns = (loaded.concerns || []).map(concern => ({
           ...concern,
-          bucket: normalizeBucketName(concern.bucket)
+          bucket: normalizeBucketName(concern.bucket),
+          createdAt: concern.createdAt || new Date().toISOString(),
+          resolvedAt: concern.resolvedAt || (concern.status === "Resolved" ? new Date().toISOString() : null),
+          status: concern.status || "Open"
         }));
 
         return loaded;
@@ -449,7 +592,9 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    function el(id){ return document.getElementById(id); }
+    function el(id){
+      return document.getElementById(id);
+    }
 
     function populateBucketSelects(){
       const ids = ["taskBucket","concernBucket"];
@@ -457,77 +602,204 @@
         const select = el(id);
         select.innerHTML = concernBuckets.map(b => `<option value="${b}">${b}</option>`).join("");
       });
-      const list = el("bucketList");
-      list.innerHTML = concernBuckets.map(b => `<span class="badge">${b}</span>`).join("");
+      el("bucketList").innerHTML = concernBuckets.map(b => `<span class="badge">${b}</span>`).join("");
     }
 
-    function renderStats(tasksToday, concernsToday){
+    function getAgeHours(createdAt, endedAt = null){
+      const start = new Date(createdAt).getTime();
+      const end = endedAt ? new Date(endedAt).getTime() : Date.now();
+      return Math.max(0, (end - start) / (1000 * 60 * 60));
+    }
+
+    function getResponseMinutes(createdAt, endedAt){
+      if(!createdAt || !endedAt) return null;
+      const start = new Date(createdAt).getTime();
+      const end = new Date(endedAt).getTime();
+      return Math.max(0, Math.round((end - start) / (1000 * 60)));
+    }
+
+    function formatDuration(hours){
+      if(hours >= 24){
+        const days = Math.floor(hours / 24);
+        const remainingHours = Math.floor(hours % 24);
+        return `${days}d ${remainingHours}h`;
+      }
+      if(hours >= 1){
+        return `${Math.floor(hours)}h ${Math.floor((hours % 1) * 60)}m`;
+      }
+      return `${Math.max(1, Math.floor(hours * 60))}m`;
+    }
+
+    function formatMinutes(minutes){
+      if(minutes === null || minutes === undefined) return "N/A";
+      if(minutes >= 1440){
+        const days = Math.floor(minutes / 1440);
+        const remainingHours = Math.floor((minutes % 1440) / 60);
+        return `${days}d ${remainingHours}h`;
+      }
+      if(minutes >= 60){
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return `${hours}h ${remainingMinutes}m`;
+      }
+      return `${minutes}m`;
+    }
+
+    function getSeverity(hours){
+      if(hours >= CRITICAL_HOURS) return "critical";
+      if(hours >= WARNING_HOURS) return "warning";
+      return "normal";
+    }
+
+    function getItemClass(hours){
+      const severity = getSeverity(hours);
+      if(severity === "critical") return "critical-item";
+      if(severity === "warning") return "warning-item";
+      return "";
+    }
+
+    function getSeverityBadge(hours){
+      const severity = getSeverity(hours);
+      if(severity === "critical"){
+        return `<span class="badge severity-critical">Critical • ${formatDuration(hours)}</span>`;
+      }
+      if(severity === "warning"){
+        return `<span class="badge severity-warning">Warning • ${formatDuration(hours)}</span>`;
+      }
+      return `<span class="badge">Age • ${formatDuration(hours)}</span>`;
+    }
+
+    function classifyResponse(minutes){
+      if(minutes === null) return "Unknown";
+      if(minutes < 5) return "Fast";
+      if(minutes <= 10) return "On Time";
+      if(minutes >= RESPONSE_CRITICAL_MINUTES) return "Critical";
+      return "Delayed";
+    }
+
+    function getResponseBadge(minutes){
+      const type = classifyResponse(minutes);
+      if(type === "Fast") return `<span class="badge response-fast">Fast • ${formatMinutes(minutes)}</span>`;
+      if(type === "On Time") return `<span class="badge response-ontime">On Time • ${formatMinutes(minutes)}</span>`;
+      if(type === "Critical") return `<span class="badge response-critical">Critical • ${formatMinutes(minutes)}</span>`;
+      if(type === "Delayed") return `<span class="badge response-delayed">Delayed • ${formatMinutes(minutes)}</span>`;
+      return `<span class="badge">Unknown</span>`;
+    }
+
+    function renderStats(tasksToday, activeConcernsToday){
       const completedToday = tasksToday.filter(t => t.done).length;
       const pendingToday = tasksToday.filter(t => !t.done).length;
       const allCompleted = state.tasks.filter(t => t.done).length;
+
       el("tasksToday").textContent = tasksToday.length;
       el("doneToday").textContent = completedToday;
       el("allCompleted").textContent = allCompleted;
-      el("concernsToday").textContent = concernsToday.length;
+      el("concernsToday").textContent = activeConcernsToday.length;
       el("dateHint").textContent = `Date: ${state.selectedDate}`;
       el("pendingHint").textContent = `${pendingToday} pending`;
-      el("timeHint").textContent = `Logged at ${nowTime()}`;
+      el("timeHint").textContent = `Open and ongoing only • ${nowTime()}`;
     }
 
     function renderTasks(tasksToday){
       const taskList = el("taskList");
       if(!tasksToday.length){
-        taskList.innerHTML = `<div class="muted-empty">No tasks for this date yet. The blank list judges in silence.</div>`;
+        taskList.innerHTML = `<div class="muted-empty">No tasks for this date yet. The blank list stares at you professionally.</div>`;
         return;
       }
-      taskList.innerHTML = tasksToday.map(task => `
-        <div class="task-item">
-          <div class="task-head">
-            <div class="task-left">
-              <input type="checkbox" ${task.done ? "checked" : ""} onchange="toggleTask('${task.id}')">
-              <div>
-                <p class="task-title ${task.done ? "done" : ""}">${escapeHtml(task.title)}</p>
-                ${task.details ? `<div class="small">${escapeHtml(task.details)}</div>` : ""}
+
+      taskList.innerHTML = tasksToday.map(task => {
+        const hours = getAgeHours(task.createdAt, task.done ? task.completedAt : null);
+        const itemClass = !task.done ? getItemClass(hours) : "";
+        const responseMinutes = task.done ? getResponseMinutes(task.createdAt, task.completedAt) : null;
+
+        return `
+          <div class="task-item ${itemClass}">
+            <div class="task-head">
+              <div class="task-left">
+                <input type="checkbox" ${task.done ? "checked" : ""} onchange="toggleTask('${task.id}')">
+                <div>
+                  <p class="task-title ${task.done ? "done" : ""}">${escapeHtml(task.title)}</p>
+                  ${task.details ? `<div class="small">${escapeHtml(task.details)}</div>` : ""}
+                </div>
               </div>
+              <button class="delete" onclick="deleteTask('${task.id}')" title="Delete">🗑</button>
             </div>
-            <button class="delete" onclick="deleteTask('${task.id}')" title="Delete">🗑</button>
+            <div class="badges">
+              <span class="badge">${escapeHtml(normalizeBucketName(task.bucket))}</span>
+              <span class="badge">${task.done && task.completedAt ? "Done " + new Date(task.completedAt).toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}) : "Pending"}</span>
+              ${task.done ? getResponseBadge(responseMinutes) : getSeverityBadge(hours)}
+            </div>
           </div>
-          <div class="badges">
-            <span class="badge">${escapeHtml(task.bucket)}</span>
-            <span class="badge">${task.done && task.completedAt ? "Done " + new Date(task.completedAt).toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}) : "Pending"}</span>
-          </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
     }
 
-    function renderConcerns(concernsToday){
+    function renderConcerns(activeConcernsToday){
       const concernList = el("concernList");
-      if(!concernsToday.length){
-        concernList.innerHTML = `<div class="muted-empty">No concerns logged for this date. Against all odds, peace.</div>`;
+      if(!activeConcernsToday.length){
+        concernList.innerHTML = `<div class="muted-empty">No active concerns for this date. Suspiciously peaceful.</div>`;
         return;
       }
 
-      concernList.innerHTML = concernsToday.map(item => `
-        <div class="concern-item">
-          <div class="concern-head">
-            <div>
-              <p class="concern-title">${escapeHtml(item.title)}</p>
-              ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
-              <div class="badges">
-                <span class="badge">${escapeHtml(normalizeBucketName(item.bucket))}</span>
-                <button
-                  class="status-btn status-${item.status.toLowerCase()}"
-                  onclick="cycleConcernStatus('${item.id}')"
-                  title="Click to change status"
-                >
-                  ${escapeHtml(item.status)}
-                </button>
+      concernList.innerHTML = activeConcernsToday.map(item => {
+        const hours = getAgeHours(item.createdAt, null);
+        const itemClass = getItemClass(hours);
+
+        return `
+          <div class="concern-item ${itemClass}">
+            <div class="concern-head">
+              <div>
+                <p class="concern-title">${escapeHtml(item.title)}</p>
+                ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
+                <div class="badges">
+                  <span class="badge">${escapeHtml(normalizeBucketName(item.bucket))}</span>
+                  <button
+                    class="status-btn status-${item.status.toLowerCase()}"
+                    onclick="cycleConcernStatus('${item.id}')"
+                    title="Click to change status"
+                  >
+                    ${escapeHtml(item.status)}
+                  </button>
+                  ${getSeverityBadge(hours)}
+                </div>
               </div>
+              <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
             </div>
-            <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
+    }
+
+    function renderResolvedConcerns(resolvedConcernsToday){
+      const list = el("resolvedConcernList");
+      if(!resolvedConcernsToday.length){
+        list.innerHTML = `<div class="muted-empty">No resolved concerns yet for this date.</div>`;
+        return;
+      }
+
+      const sorted = [...resolvedConcernsToday]
+        .sort((a,b) => new Date(b.resolvedAt || 0) - new Date(a.resolvedAt || 0));
+
+      list.innerHTML = sorted.map(item => {
+        const responseMinutes = getResponseMinutes(item.createdAt, item.resolvedAt);
+        return `
+          <div class="resolved-item">
+            <div class="resolved-head">
+              <div>
+                <p class="resolved-title">${escapeHtml(item.title)}</p>
+                ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
+                <div class="badges">
+                  <span class="badge">${escapeHtml(normalizeBucketName(item.bucket))}</span>
+                  <span class="badge status-resolved">Resolved</span>
+                  ${getResponseBadge(responseMinutes)}
+                  <span class="badge">Resolved ${new Date(item.resolvedAt).toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}</span>
+                </div>
+              </div>
+              <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
+            </div>
+          </div>
+        `;
+      }).join("");
     }
 
     function renderRecentDone(){
@@ -538,32 +810,40 @@
         .slice(0, 8);
 
       if(!recent.length){
-        list.innerHTML = `<div class="muted-empty">Nothing completed yet. The checkbox remains unemployed.</div>`;
+        list.innerHTML = `<div class="muted-empty">Nothing completed yet. The checkboxes remain decorative.</div>`;
         return;
       }
 
-      list.innerHTML = recent.map(task => `
-        <div class="done-item">
-          <div class="done-head">
-            <div>
-              <p class="done-title">${escapeHtml(task.title)}</p>
-              <div class="small">${escapeHtml(normalizeBucketName(task.bucket))} • ${escapeHtml(task.date)}</div>
+      list.innerHTML = recent.map(task => {
+        const responseMinutes = getResponseMinutes(task.createdAt, task.completedAt);
+        return `
+          <div class="done-item">
+            <div class="done-head">
+              <div>
+                <p class="done-title">${escapeHtml(task.title)}</p>
+                <div class="small">${escapeHtml(normalizeBucketName(task.bucket))} • ${escapeHtml(task.date)}</div>
+                <div class="badges">
+                  ${getResponseBadge(responseMinutes)}
+                </div>
+              </div>
+              <div>✅</div>
             </div>
-            <div>✅</div>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
     }
 
-    function renderTemplate(tasksToday, concernsToday){
+    function renderTemplate(tasksToday, activeConcernsToday, resolvedConcernsToday){
       const completedToday = tasksToday.filter(t => t.done).length;
       const pendingToday = tasksToday.filter(t => !t.done).length;
+
       el("dateTemplate").innerHTML = `
         <div><strong>Date:</strong> ${escapeHtml(state.selectedDate)}</div>
         <div><strong>Total Tasks:</strong> ${tasksToday.length}</div>
         <div><strong>Done:</strong> ${completedToday}</div>
         <div><strong>Pending:</strong> ${pendingToday}</div>
-        <div><strong>Concerns:</strong> ${concernsToday.length}</div>
+        <div><strong>Active Concerns:</strong> ${activeConcernsToday.length}</div>
+        <div><strong>Resolved Concerns:</strong> ${resolvedConcernsToday.length}</div>
         <br>
         <div><strong>Suggested daily entry structure:</strong></div>
         <div>1. Task done today</div>
@@ -642,17 +922,180 @@
       });
     }
 
+    function getSelectedDateResponseItems(){
+      const completedTasks = state.tasks
+        .filter(t => t.date === state.selectedDate && t.done && t.completedAt)
+        .map(t => ({
+          type: "Task",
+          title: t.title,
+          bucket: normalizeBucketName(t.bucket),
+          createdAt: t.createdAt,
+          endedAt: t.completedAt,
+          responseMinutes: getResponseMinutes(t.createdAt, t.completedAt)
+        }));
+
+      const resolvedConcerns = state.concerns
+        .filter(c => c.date === state.selectedDate && c.status === "Resolved" && c.resolvedAt)
+        .map(c => ({
+          type: "Concern",
+          title: c.title,
+          bucket: normalizeBucketName(c.bucket),
+          createdAt: c.createdAt,
+          endedAt: c.resolvedAt,
+          responseMinutes: getResponseMinutes(c.createdAt, c.resolvedAt)
+        }));
+
+      return [...completedTasks, ...resolvedConcerns]
+        .sort((a,b) => (b.responseMinutes || 0) - (a.responseMinutes || 0));
+    }
+
+    function drawResponseTracker(){
+      const canvas = el("responseChart");
+      const ctx = canvas.getContext("2d");
+      const items = getSelectedDateResponseItems();
+
+      const rowHeight = 56;
+      const topPad = 90;
+      const bottomPad = 30;
+      const leftPad = 280;
+      const rightPad = 130;
+      const graphWidth = canvas.width - leftPad - rightPad;
+      const graphStartX = leftPad;
+      const graphEndX = leftPad + graphWidth;
+
+      const neededHeight = Math.max(360, topPad + bottomPad + (items.length * rowHeight));
+      canvas.height = neededHeight;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if(!items.length){
+        ctx.fillStyle = "#64748b";
+        ctx.font = "14px Segoe UI";
+        ctx.textAlign = "center";
+        ctx.fillText("No completed tasks or resolved concerns yet for this date.", canvas.width / 2, canvas.height / 2);
+        return;
+      }
+
+      const scaleMaxMinutes = RESPONSE_CRITICAL_MINUTES;
+      const markers = [
+        { label: "0m", value: 0 },
+        { label: "5m", value: 5 },
+        { label: "10m", value: 10 },
+        { label: "4h+", value: 240 }
+      ];
+
+      ctx.strokeStyle = "#cbd5e1";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(graphStartX, 48);
+      ctx.lineTo(graphEndX, 48);
+      ctx.stroke();
+
+      ctx.font = "12px Segoe UI";
+      ctx.fillStyle = "#64748b";
+      ctx.textAlign = "center";
+
+      markers.forEach(marker => {
+        const ratio = Math.min(marker.value, scaleMaxMinutes) / scaleMaxMinutes;
+        const x = graphStartX + (ratio * graphWidth);
+
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.beginPath();
+        ctx.moveTo(x, 52);
+        ctx.lineTo(x, canvas.height - 18);
+        ctx.stroke();
+
+        ctx.fillText(marker.label, x, 28);
+      });
+
+      const legend = [
+        { text:"Fast", color:getComputedStyle(document.documentElement).getPropertyValue("--fast").trim() },
+        { text:"On Time", color:getComputedStyle(document.documentElement).getPropertyValue("--ontime").trim() },
+        { text:"Delayed", color:getComputedStyle(document.documentElement).getPropertyValue("--delay").trim() },
+        { text:"Critical", color:getComputedStyle(document.documentElement).getPropertyValue("--critical").trim() }
+      ];
+
+      let legendX = graphEndX - 295;
+      const legendY = 62;
+      ctx.textAlign = "left";
+
+      legend.forEach((item, i) => {
+        const x = legendX + (i * 74);
+        ctx.fillStyle = item.color;
+        ctx.fillRect(x, legendY, 10, 10);
+        ctx.fillStyle = "#334155";
+        ctx.fillText(item.text, x + 15, legendY + 10);
+      });
+
+      items.forEach((item, index) => {
+        const y = topPad + (index * rowHeight);
+        const minutes = item.responseMinutes ?? 0;
+        const clamped = Math.min(minutes, scaleMaxMinutes);
+        const x = graphStartX + (clamped / scaleMaxMinutes) * graphWidth;
+        const category = classifyResponse(minutes);
+
+        let color = getComputedStyle(document.documentElement).getPropertyValue("--delay").trim();
+        if(category === "Fast") color = getComputedStyle(document.documentElement).getPropertyValue("--fast").trim();
+        if(category === "On Time") color = getComputedStyle(document.documentElement).getPropertyValue("--ontime").trim();
+        if(category === "Critical") color = getComputedStyle(document.documentElement).getPropertyValue("--critical").trim();
+
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "bold 12px Segoe UI";
+        ctx.textAlign = "left";
+        const leftTitle = `${item.type}: ${item.title}`;
+        ctx.fillText(leftTitle.length > 34 ? leftTitle.slice(0, 34) + "..." : leftTitle, 16, y + 2);
+
+        ctx.fillStyle = "#64748b";
+        ctx.font = "11px Segoe UI";
+        ctx.fillText(item.bucket, 16, y + 18);
+
+        ctx.strokeStyle = "#cbd5e1";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(graphStartX, y + 6);
+        ctx.lineTo(graphEndX, y + 6);
+        ctx.stroke();
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(graphStartX, y + 6);
+        ctx.lineTo(x, y + 6);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x, y + 6, 6, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        ctx.fillStyle = color;
+        ctx.font = "bold 12px Segoe UI";
+        ctx.textAlign = "left";
+        ctx.fillText(category, graphEndX + 12, y + 2);
+
+        ctx.fillStyle = "#64748b";
+        ctx.font = "11px Segoe UI";
+        ctx.fillText(formatMinutes(minutes), graphEndX + 12, y + 18);
+      });
+    }
+
     function render(){
       saveState();
       el("selectedDate").value = state.selectedDate;
+
       const tasksToday = state.tasks.filter(t => t.date === state.selectedDate);
       const concernsToday = state.concerns.filter(c => c.date === state.selectedDate);
-      renderStats(tasksToday, concernsToday);
+      const activeConcernsToday = concernsToday.filter(c => c.status !== "Resolved");
+      const resolvedConcernsToday = concernsToday.filter(c => c.status === "Resolved");
+
+      renderStats(tasksToday, activeConcernsToday);
       renderTasks(tasksToday);
-      renderConcerns(concernsToday);
+      renderConcerns(activeConcernsToday);
+      renderResolvedConcerns(resolvedConcernsToday);
       renderRecentDone();
-      renderTemplate(tasksToday, concernsToday);
+      renderTemplate(tasksToday, activeConcernsToday, resolvedConcernsToday);
       drawChart();
+      drawResponseTracker();
     }
 
     function addTask(){
@@ -691,7 +1134,9 @@
         note,
         bucket,
         status,
-        date: state.selectedDate
+        date: state.selectedDate,
+        createdAt: new Date().toISOString(),
+        resolvedAt: status === "Resolved" ? new Date().toISOString() : null
       });
 
       el("concernTitle").value = "";
@@ -731,7 +1176,8 @@
 
         return {
           ...c,
-          status: nextStatus
+          status: nextStatus,
+          resolvedAt: nextStatus === "Resolved" ? new Date().toISOString() : null
         };
       });
 
@@ -772,7 +1218,1231 @@
     el("downloadBtn").addEventListener("click", downloadData);
     el("taskBucket").value = "Opendental";
     el("concernBucket").value = "Opendental";
-    el("timeHint").textContent = `Logged at ${nowTime()}`;
+    el("timeHint").textContent = `Open and ongoing only • ${nowTime()}`;
+    render();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Task & Concern Tracker</title>
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --accent:#1e293b;
+      --soft:#f1f5f9;
+      --good:#166534;
+      --warn:#b45309;
+      --warn-bg:#fff7ed;
+      --danger:#b91c1c;
+      --danger-bg:#fef2f2;
+      --fast:#15803d;
+      --ontime:#2563eb;
+      --delay:#ea580c;
+      --critical:#dc2626;
+      --shadow:0 8px 24px rgba(15,23,42,.06);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    .wrap{
+      max-width:1400px;
+      margin:0 auto;
+      padding:20px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(28px,4vw,42px);
+      line-height:1.1;
+    }
+
+    .sub{
+      color:var(--muted);
+      margin-top:8px;
+      max-width:760px;
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .chipbox,.btn,.input,.select,.textarea{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:16px;
+      font:inherit;
+    }
+
+    .chipbox{
+      padding:11px 14px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:var(--shadow);
+    }
+
+    .btn{
+      padding:12px 16px;
+      cursor:pointer;
+      box-shadow:var(--shadow);
+      background:var(--accent);
+      color:#fff;
+      transition:.18s ease;
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+
+    .btn.secondary{
+      background:#fff;
+      color:var(--text);
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .stat{
+      padding:18px;
+    }
+
+    .label{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .value{
+      margin-top:8px;
+      font-size:34px;
+      font-weight:700;
+    }
+
+    .hint{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.1fr 1.4fr 1fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    .section{
+      padding:18px;
+    }
+
+    .section h2{
+      margin:0 0 14px 0;
+      font-size:22px;
+    }
+
+    .stack{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .input,.select,.textarea{
+      width:100%;
+      padding:12px 14px;
+      outline:none;
+    }
+
+    .textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .task-item,.concern-item,.done-item,.resolved-item{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .warning-item{
+      border:2px solid var(--warn);
+      background:var(--warn-bg);
+    }
+
+    .critical-item{
+      border:2px solid var(--danger);
+      background:var(--danger-bg);
+    }
+
+    .task-head,.concern-head,.done-head,.resolved-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .task-left{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      min-width:0;
+      flex:1;
+    }
+
+    .task-title,.concern-title,.done-title,.resolved-title{
+      font-weight:600;
+      margin:0;
+      word-break:break-word;
+    }
+
+    .task-title.done{
+      text-decoration:line-through;
+      color:#94a3b8;
+    }
+
+    .small{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:6px;
+      line-height:1.45;
+    }
+
+    .badges{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .badge{
+      font-size:12px;
+      border:1px solid var(--line);
+      background:var(--soft);
+      color:#334155;
+      padding:5px 10px;
+      border-radius:999px;
+      display:inline-block;
+    }
+
+    .status-btn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      font-size:12px;
+      padding:5px 10px;
+      border-radius:999px;
+      color:#334155;
+      transition:.15s ease;
+      background:#fff;
+    }
+
+    .status-btn:hover{
+      transform:translateY(-1px);
+      opacity:.95;
+    }
+
+    .status-open{background:#fff7ed}
+    .status-ongoing{background:#eff6ff}
+    .status-resolved{background:#ecfdf5}
+
+    .severity-warning{
+      background:#fff7ed;
+      color:#9a3412;
+      border-color:#fdba74;
+    }
+
+    .severity-critical{
+      background:#fef2f2;
+      color:#991b1b;
+      border-color:#fca5a5;
+      font-weight:600;
+    }
+
+    .response-fast{
+      background:#f0fdf4;
+      color:#166534;
+      border-color:#86efac;
+    }
+
+    .response-ontime{
+      background:#eff6ff;
+      color:#1d4ed8;
+      border-color:#93c5fd;
+    }
+
+    .response-delayed{
+      background:#fff7ed;
+      color:#c2410c;
+      border-color:#fdba74;
+    }
+
+    .response-critical{
+      background:#fef2f2;
+      color:#b91c1c;
+      border-color:#fca5a5;
+      font-weight:600;
+    }
+
+    .delete{
+      border:none;
+      background:transparent;
+      color:#94a3b8;
+      cursor:pointer;
+      font-size:18px;
+    }
+
+    .delete:hover{
+      color:var(--danger)
+    }
+
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:12px;
+      max-height:520px;
+      overflow:auto;
+      padding-right:3px;
+    }
+
+    .muted-empty{
+      color:var(--muted);
+      font-size:14px;
+      padding:10px 0;
+    }
+
+    .bucket-list{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .chart-wrap{
+      display:grid;
+      place-items:center;
+      min-height:280px;
+    }
+
+    canvas{
+      max-width:100%;
+    }
+
+    .template{
+      border:1px dashed var(--line);
+      background:var(--soft);
+      border-radius:16px;
+      padding:14px;
+      color:#334155;
+      font-size:14px;
+      line-height:1.6;
+      margin-top:14px;
+    }
+
+    .response-card{
+      margin-top:18px;
+    }
+
+    .response-meta{
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:10px;
+      line-height:1.5;
+    }
+
+    .foot{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    @media (max-width:1100px){
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width:640px){
+      .stats{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}
+      .wrap{padding:14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <h1>Daily Task & Concern Tracker</h1>
+        <div class="sub">Log your tasks, track concerns, move resolved issues out of the active list, and measure response time with a visual graph. Because apparently people now need dashboards to remember what happened 20 minutes ago.</div>
+      </div>
+      <div class="controls">
+        <div class="chipbox">
+          <span>📅</span>
+          <input id="selectedDate" type="date" style="border:none;outline:none;font:inherit;background:transparent;">
+        </div>
+        <button class="btn secondary" id="downloadBtn">Download Data</button>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="card stat">
+        <div class="label">Tasks Today</div>
+        <div class="value" id="tasksToday">0</div>
+        <div class="hint" id="dateHint">Date</div>
+      </div>
+      <div class="card stat">
+        <div class="label">Done Today</div>
+        <div class="value" id="doneToday">0</div>
+        <div class="hint" id="pendingHint">0 pending</div>
+      </div>
+      <div class="card stat">
+        <div class="label">All Completed</div>
+        <div class="value" id="allCompleted">0</div>
+        <div class="hint">Across all saved dates</div>
+      </div>
+      <div class="card stat">
+        <div class="label">Concerns Today</div>
+        <div class="value" id="concernsToday">0</div>
+        <div class="hint" id="timeHint"></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card section">
+        <h2>Task List</h2>
+        <div class="stack">
+          <input class="input" id="taskTitle" placeholder="Task title">
+          <textarea class="textarea" id="taskDetails" placeholder="Task notes or details"></textarea>
+          <select class="select" id="taskBucket"></select>
+          <button class="btn" id="addTaskBtn">Add Task</button>
+        </div>
+        <div class="list" id="taskList"></div>
+      </div>
+
+      <div class="stack" style="gap:18px;">
+        <div class="card section">
+          <h2>Concern List</h2>
+          <div class="stack">
+            <div class="row">
+              <input class="input" id="concernTitle" placeholder="Concern title">
+              <select class="select" id="concernBucket"></select>
+            </div>
+            <textarea class="textarea" id="concernNote" placeholder="Concern note, error, observation, or captured word"></textarea>
+            <div class="row">
+              <select class="select" id="concernStatus">
+                <option>Open</option>
+                <option>Ongoing</option>
+                <option>Resolved</option>
+              </select>
+              <button class="btn" id="addConcernBtn">Add Concern</button>
+            </div>
+          </div>
+          <div class="list" id="concernList"></div>
+        </div>
+
+        <div class="card section">
+          <h2>Concern Buckets</h2>
+          <div class="bucket-list" id="bucketList"></div>
+        </div>
+      </div>
+
+      <div class="stack" style="gap:18px;">
+        <div class="card section">
+          <h2>Data Analysis</h2>
+          <div class="chart-wrap">
+            <canvas id="chart" width="320" height="260"></canvas>
+          </div>
+        </div>
+
+        <div class="card section">
+          <h2>Recent Completed Tasks</h2>
+          <div class="list" id="recentDoneList" style="max-height:260px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:1fr 1fr; margin-top:18px;">
+      <div class="card section">
+        <h2>Resolved Concerns</h2>
+        <div class="list" id="resolvedConcernList" style="max-height:260px;"></div>
+      </div>
+
+      <div class="card section">
+        <h2>Date Template</h2>
+        <div class="template" id="dateTemplate"></div>
+      </div>
+    </div>
+
+    <div class="card section response-card">
+      <h2>Response Time Tracker</h2>
+      <div class="response-meta">
+        Fast = under 5 mins • On Time = 5 to 10 mins • Delayed = over 10 mins • Critical = 4 hours or more
+      </div>
+      <div class="chart-wrap" style="min-height:340px;">
+        <canvas id="responseChart" width="1200" height="360"></canvas>
+      </div>
+    </div>
+
+    <div class="foot">
+      Saved in your browser using local storage. It stays on this device unless you clear the browser data or download the JSON file and lose it to the void.
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "daily-task-concern-tracker-v3";
+    const concernBuckets = [
+      "Opendental","Dexis","Aquisition","PBN","XRAY","Scanner","PRINTER","WIFI","Comcast","OverJet","Weave","Arini","Teams","Other"
+    ];
+
+    const WARNING_HOURS = 3;
+    const CRITICAL_HOURS = 9;
+    const RESPONSE_CRITICAL_MINUTES = 240;
+
+    const todayString = () => new Date().toISOString().slice(0, 10);
+    const nowTime = () => new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+
+    const defaultState = {
+      selectedDate: todayString(),
+      tasks: [
+        {
+          id: crypto.randomUUID(),
+          title: "Check morning tickets",
+          details: "Review new issues and urgent follow-ups.",
+          bucket: "Opendental",
+          date: todayString(),
+          createdAt: new Date().toISOString(),
+          completedAt: null,
+          done: false
+        },
+        {
+          id: crypto.randomUUID(),
+          title: "Follow up imaging concern",
+          details: "Confirm XRAY or Dexis issue status with the office.",
+          bucket: "XRAY",
+          date: todayString(),
+          createdAt: new Date().toISOString(),
+          completedAt: null,
+          done: false
+        }
+      ],
+      concerns: [
+        {
+          id: crypto.randomUUID(),
+          title: "Sample scanner issue",
+          note: "Device fails during document scan and may need vendor app check.",
+          bucket: "Scanner",
+          date: todayString(),
+          status: "Ongoing",
+          createdAt: new Date().toISOString(),
+          resolvedAt: null
+        }
+      ]
+    };
+
+    let state = loadState();
+
+    function normalizeBucketName(bucket){
+      if(bucket === "Ovverjet" || bucket === "Overjet") return "OverJet";
+      return bucket || "Other";
+    }
+
+    function loadState(){
+      try{
+        const saved = localStorage.getItem(STORAGE_KEY);
+        const loaded = saved ? JSON.parse(saved) : structuredClone(defaultState);
+
+        loaded.tasks = (loaded.tasks || []).map(task => ({
+          ...task,
+          bucket: normalizeBucketName(task.bucket),
+          createdAt: task.createdAt || new Date().toISOString(),
+          completedAt: task.completedAt || null,
+          done: !!task.done
+        }));
+
+        loaded.concerns = (loaded.concerns || []).map(concern => ({
+          ...concern,
+          bucket: normalizeBucketName(concern.bucket),
+          createdAt: concern.createdAt || new Date().toISOString(),
+          resolvedAt: concern.resolvedAt || (concern.status === "Resolved" ? new Date().toISOString() : null),
+          status: concern.status || "Open"
+        }));
+
+        return loaded;
+      }catch(e){
+        return structuredClone(defaultState);
+      }
+    }
+
+    function saveState(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function el(id){
+      return document.getElementById(id);
+    }
+
+    function populateBucketSelects(){
+      const ids = ["taskBucket","concernBucket"];
+      ids.forEach(id => {
+        const select = el(id);
+        select.innerHTML = concernBuckets.map(b => `<option value="${b}">${b}</option>`).join("");
+      });
+      el("bucketList").innerHTML = concernBuckets.map(b => `<span class="badge">${b}</span>`).join("");
+    }
+
+    function getAgeHours(createdAt, endedAt = null){
+      const start = new Date(createdAt).getTime();
+      const end = endedAt ? new Date(endedAt).getTime() : Date.now();
+      return Math.max(0, (end - start) / (1000 * 60 * 60));
+    }
+
+    function getResponseMinutes(createdAt, endedAt){
+      if(!createdAt || !endedAt) return null;
+      const start = new Date(createdAt).getTime();
+      const end = new Date(endedAt).getTime();
+      return Math.max(0, Math.round((end - start) / (1000 * 60)));
+    }
+
+    function formatDuration(hours){
+      if(hours >= 24){
+        const days = Math.floor(hours / 24);
+        const remainingHours = Math.floor(hours % 24);
+        return `${days}d ${remainingHours}h`;
+      }
+      if(hours >= 1){
+        return `${Math.floor(hours)}h ${Math.floor((hours % 1) * 60)}m`;
+      }
+      return `${Math.max(1, Math.floor(hours * 60))}m`;
+    }
+
+    function formatMinutes(minutes){
+      if(minutes === null || minutes === undefined) return "N/A";
+      if(minutes >= 1440){
+        const days = Math.floor(minutes / 1440);
+        const remainingHours = Math.floor((minutes % 1440) / 60);
+        return `${days}d ${remainingHours}h`;
+      }
+      if(minutes >= 60){
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return `${hours}h ${remainingMinutes}m`;
+      }
+      return `${minutes}m`;
+    }
+
+    function getSeverity(hours){
+      if(hours >= CRITICAL_HOURS) return "critical";
+      if(hours >= WARNING_HOURS) return "warning";
+      return "normal";
+    }
+
+    function getItemClass(hours){
+      const severity = getSeverity(hours);
+      if(severity === "critical") return "critical-item";
+      if(severity === "warning") return "warning-item";
+      return "";
+    }
+
+    function getSeverityBadge(hours){
+      const severity = getSeverity(hours);
+      if(severity === "critical"){
+        return `<span class="badge severity-critical">Critical • ${formatDuration(hours)}</span>`;
+      }
+      if(severity === "warning"){
+        return `<span class="badge severity-warning">Warning • ${formatDuration(hours)}</span>`;
+      }
+      return `<span class="badge">Age • ${formatDuration(hours)}</span>`;
+    }
+
+    function classifyResponse(minutes){
+      if(minutes === null) return "Unknown";
+      if(minutes < 5) return "Fast";
+      if(minutes <= 10) return "On Time";
+      if(minutes >= RESPONSE_CRITICAL_MINUTES) return "Critical";
+      return "Delayed";
+    }
+
+    function getResponseBadge(minutes){
+      const type = classifyResponse(minutes);
+      if(type === "Fast") return `<span class="badge response-fast">Fast • ${formatMinutes(minutes)}</span>`;
+      if(type === "On Time") return `<span class="badge response-ontime">On Time • ${formatMinutes(minutes)}</span>`;
+      if(type === "Critical") return `<span class="badge response-critical">Critical • ${formatMinutes(minutes)}</span>`;
+      if(type === "Delayed") return `<span class="badge response-delayed">Delayed • ${formatMinutes(minutes)}</span>`;
+      return `<span class="badge">Unknown</span>`;
+    }
+
+    function renderStats(tasksToday, activeConcernsToday){
+      const completedToday = tasksToday.filter(t => t.done).length;
+      const pendingToday = tasksToday.filter(t => !t.done).length;
+      const allCompleted = state.tasks.filter(t => t.done).length;
+
+      el("tasksToday").textContent = tasksToday.length;
+      el("doneToday").textContent = completedToday;
+      el("allCompleted").textContent = allCompleted;
+      el("concernsToday").textContent = activeConcernsToday.length;
+      el("dateHint").textContent = `Date: ${state.selectedDate}`;
+      el("pendingHint").textContent = `${pendingToday} pending`;
+      el("timeHint").textContent = `Open and ongoing only • ${nowTime()}`;
+    }
+
+    function renderTasks(tasksToday){
+      const taskList = el("taskList");
+      if(!tasksToday.length){
+        taskList.innerHTML = `<div class="muted-empty">No tasks for this date yet. The blank list stares at you professionally.</div>`;
+        return;
+      }
+
+      taskList.innerHTML = tasksToday.map(task => {
+        const hours = getAgeHours(task.createdAt, task.done ? task.completedAt : null);
+        const itemClass = !task.done ? getItemClass(hours) : "";
+        const responseMinutes = task.done ? getResponseMinutes(task.createdAt, task.completedAt) : null;
+
+        return `
+          <div class="task-item ${itemClass}">
+            <div class="task-head">
+              <div class="task-left">
+                <input type="checkbox" ${task.done ? "checked" : ""} onchange="toggleTask('${task.id}')">
+                <div>
+                  <p class="task-title ${task.done ? "done" : ""}">${escapeHtml(task.title)}</p>
+                  ${task.details ? `<div class="small">${escapeHtml(task.details)}</div>` : ""}
+                </div>
+              </div>
+              <button class="delete" onclick="deleteTask('${task.id}')" title="Delete">🗑</button>
+            </div>
+            <div class="badges">
+              <span class="badge">${escapeHtml(normalizeBucketName(task.bucket))}</span>
+              <span class="badge">${task.done && task.completedAt ? "Done " + new Date(task.completedAt).toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}) : "Pending"}</span>
+              ${task.done ? getResponseBadge(responseMinutes) : getSeverityBadge(hours)}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderConcerns(activeConcernsToday){
+      const concernList = el("concernList");
+      if(!activeConcernsToday.length){
+        concernList.innerHTML = `<div class="muted-empty">No active concerns for this date. Suspiciously peaceful.</div>`;
+        return;
+      }
+
+      concernList.innerHTML = activeConcernsToday.map(item => {
+        const hours = getAgeHours(item.createdAt, null);
+        const itemClass = getItemClass(hours);
+
+        return `
+          <div class="concern-item ${itemClass}">
+            <div class="concern-head">
+              <div>
+                <p class="concern-title">${escapeHtml(item.title)}</p>
+                ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
+                <div class="badges">
+                  <span class="badge">${escapeHtml(normalizeBucketName(item.bucket))}</span>
+                  <button
+                    class="status-btn status-${item.status.toLowerCase()}"
+                    onclick="cycleConcernStatus('${item.id}')"
+                    title="Click to change status"
+                  >
+                    ${escapeHtml(item.status)}
+                  </button>
+                  ${getSeverityBadge(hours)}
+                </div>
+              </div>
+              <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderResolvedConcerns(resolvedConcernsToday){
+      const list = el("resolvedConcernList");
+      if(!resolvedConcernsToday.length){
+        list.innerHTML = `<div class="muted-empty">No resolved concerns yet for this date.</div>`;
+        return;
+      }
+
+      const sorted = [...resolvedConcernsToday]
+        .sort((a,b) => new Date(b.resolvedAt || 0) - new Date(a.resolvedAt || 0));
+
+      list.innerHTML = sorted.map(item => {
+        const responseMinutes = getResponseMinutes(item.createdAt, item.resolvedAt);
+        return `
+          <div class="resolved-item">
+            <div class="resolved-head">
+              <div>
+                <p class="resolved-title">${escapeHtml(item.title)}</p>
+                ${item.note ? `<div class="small">${escapeHtml(item.note)}</div>` : ""}
+                <div class="badges">
+                  <span class="badge">${escapeHtml(normalizeBucketName(item.bucket))}</span>
+                  <span class="badge status-resolved">Resolved</span>
+                  ${getResponseBadge(responseMinutes)}
+                  <span class="badge">Resolved ${new Date(item.resolvedAt).toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}</span>
+                </div>
+              </div>
+              <button class="delete" onclick="deleteConcern('${item.id}')" title="Delete">🗑</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderRecentDone(){
+      const list = el("recentDoneList");
+      const recent = [...state.tasks]
+        .filter(t => t.done)
+        .sort((a,b) => new Date(b.completedAt) - new Date(a.completedAt))
+        .slice(0, 8);
+
+      if(!recent.length){
+        list.innerHTML = `<div class="muted-empty">Nothing completed yet. The checkboxes remain decorative.</div>`;
+        return;
+      }
+
+      list.innerHTML = recent.map(task => {
+        const responseMinutes = getResponseMinutes(task.createdAt, task.completedAt);
+        return `
+          <div class="done-item">
+            <div class="done-head">
+              <div>
+                <p class="done-title">${escapeHtml(task.title)}</p>
+                <div class="small">${escapeHtml(normalizeBucketName(task.bucket))} • ${escapeHtml(task.date)}</div>
+                <div class="badges">
+                  ${getResponseBadge(responseMinutes)}
+                </div>
+              </div>
+              <div>✅</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderTemplate(tasksToday, activeConcernsToday, resolvedConcernsToday){
+      const completedToday = tasksToday.filter(t => t.done).length;
+      const pendingToday = tasksToday.filter(t => !t.done).length;
+
+      el("dateTemplate").innerHTML = `
+        <div><strong>Date:</strong> ${escapeHtml(state.selectedDate)}</div>
+        <div><strong>Total Tasks:</strong> ${tasksToday.length}</div>
+        <div><strong>Done:</strong> ${completedToday}</div>
+        <div><strong>Pending:</strong> ${pendingToday}</div>
+        <div><strong>Active Concerns:</strong> ${activeConcernsToday.length}</div>
+        <div><strong>Resolved Concerns:</strong> ${resolvedConcernsToday.length}</div>
+        <br>
+        <div><strong>Suggested daily entry structure:</strong></div>
+        <div>1. Task done today</div>
+        <div>2. Concern found</div>
+        <div>3. Bucket or keyword captured</div>
+        <div>4. Status or next action</div>
+        <div>5. Completion mark</div>
+      `;
+    }
+
+    function drawChart(){
+      const counts = {};
+      concernBuckets.forEach(b => counts[b] = 0);
+
+      state.tasks.forEach(t => {
+        const bucket = normalizeBucketName(t.bucket);
+        counts[bucket] = (counts[bucket] || 0) + 1;
+      });
+
+      state.concerns.forEach(c => {
+        const bucket = normalizeBucketName(c.bucket);
+        counts[bucket] = (counts[bucket] || 0) + 1;
+      });
+
+      const data = Object.entries(counts).filter(([,v]) => v > 0);
+      const canvas = el("chart");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      if(!data.length){
+        ctx.fillStyle = "#64748b";
+        ctx.font = "14px Segoe UI";
+        ctx.textAlign = "center";
+        ctx.fillText("No chart data yet. Add tasks or concerns.", canvas.width/2, canvas.height/2);
+        return;
+      }
+
+      const total = data.reduce((a,[,v]) => a+v, 0);
+      const cx = 110, cy = 120, radius = 74;
+      const colors = ["#334155","#64748b","#94a3b8","#cbd5e1","#0f766e","#1d4ed8","#7c3aed","#be123c","#b45309","#166534","#0369a1","#a16207","#475569"];
+
+      let start = -Math.PI/2;
+      data.forEach(([name, value], i) => {
+        const slice = (value/total) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, start, start + slice);
+        ctx.closePath();
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.fill();
+        start += slice;
+      });
+
+      ctx.beginPath();
+      ctx.fillStyle = "#fff";
+      ctx.arc(cx, cy, 38, 0, Math.PI*2);
+      ctx.fill();
+
+      ctx.fillStyle = "#0f172a";
+      ctx.font = "bold 16px Segoe UI";
+      ctx.textAlign = "center";
+      ctx.fillText(total, cx, cy + 5);
+      ctx.font = "12px Segoe UI";
+      ctx.fillStyle = "#64748b";
+      ctx.fillText("entries", cx, cy + 22);
+
+      let lx = 210, ly = 28;
+      data.forEach(([name, value], i) => {
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.fillRect(lx, ly - 10, 10, 10);
+        ctx.fillStyle = "#334155";
+        ctx.font = "12px Segoe UI";
+        ctx.textAlign = "left";
+        ctx.fillText(`${name} (${value})`, lx + 16, ly);
+        ly += 18;
+      });
+    }
+
+    function getSelectedDateResponseItems(){
+      const completedTasks = state.tasks
+        .filter(t => t.date === state.selectedDate && t.done && t.completedAt)
+        .map(t => ({
+          type: "Task",
+          title: t.title,
+          bucket: normalizeBucketName(t.bucket),
+          createdAt: t.createdAt,
+          endedAt: t.completedAt,
+          responseMinutes: getResponseMinutes(t.createdAt, t.completedAt)
+        }));
+
+      const resolvedConcerns = state.concerns
+        .filter(c => c.date === state.selectedDate && c.status === "Resolved" && c.resolvedAt)
+        .map(c => ({
+          type: "Concern",
+          title: c.title,
+          bucket: normalizeBucketName(c.bucket),
+          createdAt: c.createdAt,
+          endedAt: c.resolvedAt,
+          responseMinutes: getResponseMinutes(c.createdAt, c.resolvedAt)
+        }));
+
+      return [...completedTasks, ...resolvedConcerns]
+        .sort((a,b) => (b.responseMinutes || 0) - (a.responseMinutes || 0));
+    }
+
+    function drawResponseTracker(){
+      const canvas = el("responseChart");
+      const ctx = canvas.getContext("2d");
+      const items = getSelectedDateResponseItems();
+
+      const rowHeight = 56;
+      const topPad = 90;
+      const bottomPad = 30;
+      const leftPad = 280;
+      const rightPad = 130;
+      const graphWidth = canvas.width - leftPad - rightPad;
+      const graphStartX = leftPad;
+      const graphEndX = leftPad + graphWidth;
+
+      const neededHeight = Math.max(360, topPad + bottomPad + (items.length * rowHeight));
+      canvas.height = neededHeight;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if(!items.length){
+        ctx.fillStyle = "#64748b";
+        ctx.font = "14px Segoe UI";
+        ctx.textAlign = "center";
+        ctx.fillText("No completed tasks or resolved concerns yet for this date.", canvas.width / 2, canvas.height / 2);
+        return;
+      }
+
+      const scaleMaxMinutes = RESPONSE_CRITICAL_MINUTES;
+      const markers = [
+        { label: "0m", value: 0 },
+        { label: "5m", value: 5 },
+        { label: "10m", value: 10 },
+        { label: "4h+", value: 240 }
+      ];
+
+      ctx.strokeStyle = "#cbd5e1";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(graphStartX, 48);
+      ctx.lineTo(graphEndX, 48);
+      ctx.stroke();
+
+      ctx.font = "12px Segoe UI";
+      ctx.fillStyle = "#64748b";
+      ctx.textAlign = "center";
+
+      markers.forEach(marker => {
+        const ratio = Math.min(marker.value, scaleMaxMinutes) / scaleMaxMinutes;
+        const x = graphStartX + (ratio * graphWidth);
+
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.beginPath();
+        ctx.moveTo(x, 52);
+        ctx.lineTo(x, canvas.height - 18);
+        ctx.stroke();
+
+        ctx.fillText(marker.label, x, 28);
+      });
+
+      const legend = [
+        { text:"Fast", color:getComputedStyle(document.documentElement).getPropertyValue("--fast").trim() },
+        { text:"On Time", color:getComputedStyle(document.documentElement).getPropertyValue("--ontime").trim() },
+        { text:"Delayed", color:getComputedStyle(document.documentElement).getPropertyValue("--delay").trim() },
+        { text:"Critical", color:getComputedStyle(document.documentElement).getPropertyValue("--critical").trim() }
+      ];
+
+      let legendX = graphEndX - 295;
+      const legendY = 62;
+      ctx.textAlign = "left";
+
+      legend.forEach((item, i) => {
+        const x = legendX + (i * 74);
+        ctx.fillStyle = item.color;
+        ctx.fillRect(x, legendY, 10, 10);
+        ctx.fillStyle = "#334155";
+        ctx.fillText(item.text, x + 15, legendY + 10);
+      });
+
+      items.forEach((item, index) => {
+        const y = topPad + (index * rowHeight);
+        const minutes = item.responseMinutes ?? 0;
+        const clamped = Math.min(minutes, scaleMaxMinutes);
+        const x = graphStartX + (clamped / scaleMaxMinutes) * graphWidth;
+        const category = classifyResponse(minutes);
+
+        let color = getComputedStyle(document.documentElement).getPropertyValue("--delay").trim();
+        if(category === "Fast") color = getComputedStyle(document.documentElement).getPropertyValue("--fast").trim();
+        if(category === "On Time") color = getComputedStyle(document.documentElement).getPropertyValue("--ontime").trim();
+        if(category === "Critical") color = getComputedStyle(document.documentElement).getPropertyValue("--critical").trim();
+
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "bold 12px Segoe UI";
+        ctx.textAlign = "left";
+        const leftTitle = `${item.type}: ${item.title}`;
+        ctx.fillText(leftTitle.length > 34 ? leftTitle.slice(0, 34) + "..." : leftTitle, 16, y + 2);
+
+        ctx.fillStyle = "#64748b";
+        ctx.font = "11px Segoe UI";
+        ctx.fillText(item.bucket, 16, y + 18);
+
+        ctx.strokeStyle = "#cbd5e1";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(graphStartX, y + 6);
+        ctx.lineTo(graphEndX, y + 6);
+        ctx.stroke();
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(graphStartX, y + 6);
+        ctx.lineTo(x, y + 6);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x, y + 6, 6, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        ctx.fillStyle = color;
+        ctx.font = "bold 12px Segoe UI";
+        ctx.textAlign = "left";
+        ctx.fillText(category, graphEndX + 12, y + 2);
+
+        ctx.fillStyle = "#64748b";
+        ctx.font = "11px Segoe UI";
+        ctx.fillText(formatMinutes(minutes), graphEndX + 12, y + 18);
+      });
+    }
+
+    function render(){
+      saveState();
+      el("selectedDate").value = state.selectedDate;
+
+      const tasksToday = state.tasks.filter(t => t.date === state.selectedDate);
+      const concernsToday = state.concerns.filter(c => c.date === state.selectedDate);
+      const activeConcernsToday = concernsToday.filter(c => c.status !== "Resolved");
+      const resolvedConcernsToday = concernsToday.filter(c => c.status === "Resolved");
+
+      renderStats(tasksToday, activeConcernsToday);
+      renderTasks(tasksToday);
+      renderConcerns(activeConcernsToday);
+      renderResolvedConcerns(resolvedConcernsToday);
+      renderRecentDone();
+      renderTemplate(tasksToday, activeConcernsToday, resolvedConcernsToday);
+      drawChart();
+      drawResponseTracker();
+    }
+
+    function addTask(){
+      const title = el("taskTitle").value.trim();
+      const details = el("taskDetails").value.trim();
+      const bucket = normalizeBucketName(el("taskBucket").value);
+      if(!title) return;
+
+      state.tasks.unshift({
+        id: crypto.randomUUID(),
+        title,
+        details,
+        bucket,
+        date: state.selectedDate,
+        createdAt: new Date().toISOString(),
+        completedAt: null,
+        done: false
+      });
+
+      el("taskTitle").value = "";
+      el("taskDetails").value = "";
+      el("taskBucket").value = "Opendental";
+      render();
+    }
+
+    function addConcern(){
+      const title = el("concernTitle").value.trim();
+      const note = el("concernNote").value.trim();
+      const bucket = normalizeBucketName(el("concernBucket").value);
+      const status = el("concernStatus").value;
+      if(!title) return;
+
+      state.concerns.unshift({
+        id: crypto.randomUUID(),
+        title,
+        note,
+        bucket,
+        status,
+        date: state.selectedDate,
+        createdAt: new Date().toISOString(),
+        resolvedAt: status === "Resolved" ? new Date().toISOString() : null
+      });
+
+      el("concernTitle").value = "";
+      el("concernNote").value = "";
+      el("concernBucket").value = "Opendental";
+      el("concernStatus").value = "Open";
+      render();
+    }
+
+    function toggleTask(id){
+      state.tasks = state.tasks.map(t => t.id === id ? {
+        ...t,
+        done: !t.done,
+        completedAt: !t.done ? new Date().toISOString() : null
+      } : t);
+      render();
+    }
+
+    function deleteTask(id){
+      state.tasks = state.tasks.filter(t => t.id !== id);
+      render();
+    }
+
+    function deleteConcern(id){
+      state.concerns = state.concerns.filter(c => c.id !== id);
+      render();
+    }
+
+    function cycleConcernStatus(id){
+      const order = ["Open", "Ongoing", "Resolved"];
+
+      state.concerns = state.concerns.map(c => {
+        if(c.id !== id) return c;
+
+        const currentIndex = order.indexOf(c.status);
+        const nextStatus = order[(currentIndex + 1) % order.length];
+
+        return {
+          ...c,
+          status: nextStatus,
+          resolvedAt: nextStatus === "Resolved" ? new Date().toISOString() : null
+        };
+      });
+
+      render();
+    }
+
+    function downloadData(){
+      const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `task-log-${state.selectedDate}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
+
+    window.toggleTask = toggleTask;
+    window.deleteTask = deleteTask;
+    window.deleteConcern = deleteConcern;
+    window.cycleConcernStatus = cycleConcernStatus;
+
+    populateBucketSelects();
+    el("selectedDate").addEventListener("change", e => {
+      state.selectedDate = e.target.value;
+      render();
+    });
+    el("addTaskBtn").addEventListener("click", addTask);
+    el("addConcernBtn").addEventListener("click", addConcern);
+    el("downloadBtn").addEventListener("click", downloadData);
+    el("taskBucket").value = "Opendental";
+    el("concernBucket").value = "Opendental";
+    el("timeHint").textContent = `Open and ongoing only • ${nowTime()}`;
     render();
   </script>
 </body>
