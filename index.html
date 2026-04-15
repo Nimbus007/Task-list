@@ -91,6 +91,7 @@
       background:var(--accent);
       color:#fff;
       transition:.18s ease;
+      border:none;
     }
 
     .btn:hover{transform:translateY(-1px)}
@@ -98,6 +99,7 @@
     .btn.secondary{
       background:#fff;
       color:var(--text);
+      border:1px solid var(--line);
     }
 
     .stats{
@@ -308,7 +310,7 @@
     }
 
     .delete:hover{
-      color:var(--danger)
+      color:var(--danger);
     }
 
     .list{
@@ -371,6 +373,43 @@
       font-size:14px;
     }
 
+    .full-width-card{
+      grid-column:1 / -1;
+    }
+
+    .time-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .time-box{
+      background:#f8fafc;
+      border:1px solid #dbe3ee;
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .time-box .region{
+      font-size:14px;
+      color:#64748b;
+      font-weight:600;
+      margin-bottom:6px;
+    }
+
+    .time-box .clock{
+      font-size:22px;
+      font-weight:700;
+      color:#0f172a;
+    }
+
+    .time-box .date{
+      font-size:13px;
+      color:#64748b;
+      margin-top:6px;
+    }
+
     @media (max-width:1100px){
       .stats{grid-template-columns:repeat(2,1fr)}
       .grid{grid-template-columns:1fr}
@@ -380,45 +419,6 @@
       .stats{grid-template-columns:1fr}
       .row{grid-template-columns:1fr}
       .wrap{padding:14px}
-
-      }
-    
-      .full-width-card{
-  grid-column: 1 / -1;
-}
-
-.time-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-  gap:12px;
-  margin-top:14px;
-}
-
-.time-box{
-  background:#f8fafc;
-  border:1px solid #dbe3ee;
-  border-radius:16px;
-  padding:14px;
-}
-
-.time-box .region{
-  font-size:14px;
-  color:#64748b;
-  font-weight:600;
-  margin-bottom:6px;
-}
-
-.time-box .clock{
-  font-size:22px;
-  font-weight:700;
-  color:#0f172a;
-}
-
-.time-box .date{
-  font-size:13px;
-  color:#64748b;
-  margin-top:6px;
-}
     }
   </style>
 </head>
@@ -427,7 +427,7 @@
     <div class="topbar">
       <div>
         <h1>Daily Task & Concern Tracker</h1>
-        <div class="sub">Log your tasks, track concerns, move resolved issues out of the active list, and measure response time with a visual graph. Because apparently people now need dashboards to remember what happened 20 minutes ago.</div>
+        <div class="sub">Log your tasks, track concerns, move resolved issues out of the active list, and measure response time with a visual graph.</div>
       </div>
       <div class="controls">
         <div class="chipbox">
@@ -500,11 +500,6 @@
         </div>
       </div>
 
-<div class="card section full-width-card">
-  <h2>Regional Time Table</h2>
-  <div class="time-grid" id="timeGrid"></div>
-</div>
-
       <div class="stack" style="gap:18px;">
         <div class="card section">
           <h2>Data Analysis</h2>
@@ -517,6 +512,11 @@
           <h2>Recent Completed Tasks</h2>
           <div class="list" id="recentDoneList" style="max-height:260px;"></div>
         </div>
+      </div>
+
+      <div class="card section full-width-card">
+        <h2>Regional Time Table</h2>
+        <div class="time-grid" id="timeGrid"></div>
       </div>
     </div>
 
@@ -543,7 +543,7 @@
     </div>
 
     <div class="foot">
-      Saved in your browser using local storage. It stays on this device unless you clear the browser data or download the JSON file and lose it to the void.
+      Saved in your browser using local storage. It stays on this device unless you clear the browser data.
     </div>
   </div>
 
@@ -556,6 +556,15 @@
     const WARNING_HOURS = 3;
     const CRITICAL_HOURS = 9;
     const RESPONSE_CRITICAL_MINUTES = 240;
+
+    const regions = [
+      { name: "Philippines", zone: "Asia/Manila" },
+      { name: "Alaska", zone: "America/Anchorage" },
+      { name: "Washington", zone: "America/Los_Angeles" },
+      { name: "California", zone: "America/Los_Angeles" },
+      { name: "Michigan", zone: "America/Detroit" },
+      { name: "Las Vegas", zone: "America/Los_Angeles" }
+    ];
 
     const todayString = () => new Date().toISOString().slice(0, 10);
     const nowTime = () => new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
@@ -747,7 +756,7 @@
     function renderTasks(tasksToday){
       const taskList = el("taskList");
       if(!tasksToday.length){
-        taskList.innerHTML = `<div class="muted-empty">No tasks for this date yet. The blank list stares at you professionally.</div>`;
+        taskList.innerHTML = `<div class="muted-empty">No tasks for this date yet.</div>`;
         return;
       }
 
@@ -781,7 +790,7 @@
     function renderConcerns(activeConcernsToday){
       const concernList = el("concernList");
       if(!activeConcernsToday.length){
-        concernList.innerHTML = `<div class="muted-empty">No active concerns for this date. Suspiciously peaceful.</div>`;
+        concernList.innerHTML = `<div class="muted-empty">No active concerns for this date.</div>`;
         return;
       }
 
@@ -854,7 +863,7 @@
         .slice(0, 8);
 
       if(!recent.length){
-        list.innerHTML = `<div class="muted-empty">Nothing completed yet. The checkboxes remain decorative.</div>`;
+        list.innerHTML = `<div class="muted-empty">Nothing completed yet.</div>`;
         return;
       }
 
@@ -925,7 +934,7 @@
         return;
       }
 
-      const total = data.reduce((a,[,v]) => a+v, 0);
+      const total = data.reduce((a,[,v]) => a + v, 0);
       const cx = 110, cy = 120, radius = 74;
       const colors = ["#334155","#64748b","#94a3b8","#cbd5e1","#0f766e","#1d4ed8","#7c3aed","#be123c","#b45309","#166534","#0369a1","#a16207","#475569"];
 
@@ -1123,6 +1132,39 @@
       });
     }
 
+    function formatRegionTime(zone){
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: zone,
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      }).format(new Date());
+    }
+
+    function formatRegionDate(zone){
+      return new Intl.DateTimeFormat("en-US", {
+        timeZone: zone,
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      }).format(new Date());
+    }
+
+    function renderTimeTable(){
+      const grid = el("timeGrid");
+      if(!grid) return;
+
+      grid.innerHTML = regions.map(region => `
+        <div class="time-box">
+          <div class="region">${region.name}</div>
+          <div class="clock">${formatRegionTime(region.zone)}</div>
+          <div class="date">${formatRegionDate(region.zone)}</div>
+        </div>
+      `).join("");
+    }
+
     function render(){
       saveState();
       el("selectedDate").value = state.selectedDate;
@@ -1140,6 +1182,7 @@
       renderTemplate(tasksToday, activeConcernsToday, resolvedConcernsToday);
       drawChart();
       drawResponseTracker();
+      renderTimeTable();
     }
 
     function addTask(){
@@ -1253,42 +1296,22 @@
     window.cycleConcernStatus = cycleConcernStatus;
 
     populateBucketSelects();
+
     el("selectedDate").addEventListener("change", e => {
       state.selectedDate = e.target.value;
       render();
     });
+
     el("addTaskBtn").addEventListener("click", addTask);
     el("addConcernBtn").addEventListener("click", addConcern);
     el("downloadBtn").addEventListener("click", downloadData);
+
     el("taskBucket").value = "Opendental";
     el("concernBucket").value = "Opendental";
     el("timeHint").textContent = `Open and ongoing only • ${nowTime()}`;
+
     render();
-    
- <script>
-  const regions = [
-    { name: "Philippines", zone: "Asia/Manila" },
-    { name: "Alaska", zone: "America/Anchorage" },
-    { name: "Washington", zone: "America/Los_Angeles" },
-    { name: "California", zone: "America/Los_Angeles" },
-    { name: "Michigan", zone: "America/Detroit" },
-    { name: "Las Vegas", zone: "America/Los_Angeles" }
-  ];
-
-  function renderTimeTable() {
-    const grid = document.getElementById("timeGrid");
-    if (!grid) return; // Because I'm sure you'd love to forget the ID, right?
-
-    grid.innerHTML = regions.map(region => `
-      <div class="time-box">
-        <div class="region">${region.name}</div>
-        <div class="clock">${new Intl.DateTimeFormat('en-US', { timeZone: region.zone, timeStyle: 'medium' }).format(new Date())}</div>
-        <div class="date">${new Intl.DateTimeFormat('en-US', { timeZone: region.zone, dateStyle: 'medium' }).format(new Date())}</div>
-      </div>
-    `).join('');
-  }
-
-  renderTimeTable(); // Initial call to show times immediately
-  setInterval(renderTimeTable, 1000); // Update every second, because time waits for no one
+    setInterval(renderTimeTable, 1000);
+  </script>
 </body>
 </html>
