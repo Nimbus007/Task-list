@@ -724,8 +724,8 @@
 
     function classifyResponse(minutes){
       if(minutes === null) return "Unknown";
-      if(minutes < 5) return "Fast";
-      if(minutes <= 10) return "On Time";
+      if(minutes < 15) return "Fast";
+      if(minutes <= 30) return "On Time";
       if(minutes >= RESPONSE_CRITICAL_MINUTES) return "Critical";
       return "Delayed";
     }
