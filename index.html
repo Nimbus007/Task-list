@@ -464,6 +464,13 @@
     <div class="grid">
       <div class="card section">
         <h2>Task List</h2>
+        <input 
+  type="text" 
+  id="taskSearch" 
+  class="input"
+  placeholder="Search all tasks from all dates..."
+  oninput="render()"
+/>
         <div class="stack">
           <input class="input" id="taskTitle" placeholder="Task title">
           <textarea class="textarea" id="taskDetails" placeholder="Task notes or details"></textarea>
@@ -765,7 +772,7 @@
     function renderTasks(tasksToday){
       const taskList = el("taskList");
       if(!tasksToday.length){
-        taskList.innerHTML = `<div class="muted-empty">No tasks for this date yet.</div>`;
+        taskList.innerHTML = `<div class="muted-empty">No matching tasks found.</div>`;
         return;
       }
 
@@ -1197,7 +1204,15 @@ function filterResolvedHistory() {
       saveState();
       el("selectedDate").value = state.selectedDate;
 
-      const tasksToday = state.tasks.filter(t => t.date === state.selectedDate);
+      const taskSearchValue = el("taskSearch") ? el("taskSearch").value.toLowerCase().trim() : "";
+
+const tasksToday = taskSearchValue
+  ? state.tasks.filter(t =>
+      `${t.title} ${t.details} ${t.bucket} ${t.date}`
+        .toLowerCase()
+        .includes(taskSearchValue)
+    )
+  : state.tasks.filter(t => t.date === state.selectedDate);
       const concernsToday = state.concerns.filter(c => c.date === state.selectedDate);
       const activeConcernsToday = concernsToday.filter(c => c.status !== "Resolved");
       const resolvedConcernsToday = concernsToday.filter(c => c.status === "Resolved");
@@ -1323,6 +1338,7 @@ filterResolvedHistory();
     window.deleteTask = deleteTask;
     window.deleteConcern = deleteConcern;
     window.cycleConcernStatus = cycleConcernStatus;
+    window.render = render;
 
     populateBucketSelects();
 
