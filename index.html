@@ -25,7 +25,19 @@
       --shadow:0 8px 24px rgba(15,23,42,.06);
       --radius:20px;
     }
+ .history-search{
+        width:100%;
+        padding:10px;
+        margin:10px 0 14px 0;
+        border-radius:10px;
+        border:1px solid #444;
+        background:#111827;
+        color:white;
+        font-size:14px;
+        box-sizing:border-box;
+    }
 
+</style>
     *{box-sizing:border-box}
 
     body{
@@ -523,6 +535,13 @@
     <div class="grid" style="grid-template-columns:1fr 1fr; margin-top:18px;">
       <div class="card section">
         <h2>Resolved Concerns</h2>
+        <input 
+  type="text" 
+  id="historySearch" 
+  placeholder="Search resolved issues, notes, keywords, or buckets..."
+  oninput="filterResolvedHistory()"
+  class="history-search"
+>
         <div class="list" id="resolvedConcernList" style="max-height:260px;"></div>
       </div>
 
@@ -565,7 +584,26 @@
       { name: "Michigan", zone: "America/Detroit" },
       { name: "Las Vegas", zone: "America/Los_Angeles" }
     ];
+function filterResolvedHistory() {
+    const searchValue = document
+        .getElementById("historySearch")
+        .value
+        .toLowerCase();
 
+    const historyItems = document.querySelectorAll("#resolvedConcernList .item");
+
+    historyItems.forEach(item => {
+        const text = item.innerText.toLowerCase();
+
+        if (text.includes(searchValue)) {
+            item.style.display = "";
+        } else {
+            item.style.display = "none";
+        }
+    });
+}
+
+const defaultState = {
     const todayString = () => new Date().toISOString().slice(0, 10);
     const nowTime = () => new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
 
