@@ -536,7 +536,7 @@
     id="historySearch" 
     class="input"
     placeholder="Search resolved concerns by title, notes, bucket, or keyword..."
-    oninput="filterResolvedHistory()"
+    oninput="render()"
   />
 
   <div class="list" id="resolvedConcernList" style="max-height:260px;"></div>
@@ -1180,26 +1180,7 @@
         </div>
       `).join("");
     }
-function filterResolvedHistory() {
-  const searchInput = el("historySearch");
-  if (!searchInput) return;
 
-  const searchValue = searchInput.value.toLowerCase();
-
-  const resolvedItems = document.querySelectorAll(
-    "#resolvedConcernList .resolved-item"
-  );
-
-  resolvedItems.forEach(item => {
-    const text = item.innerText.toLowerCase();
-
-    if (text.includes(searchValue)) {
-      item.style.display = "";
-    } else {
-      item.style.display = "none";
-    }
-  });
-}
     function render(){
       saveState();
       el("selectedDate").value = state.selectedDate;
@@ -1215,13 +1196,23 @@ const tasksToday = taskSearchValue
   : state.tasks.filter(t => t.date === state.selectedDate);
       const concernsToday = state.concerns.filter(c => c.date === state.selectedDate);
       const activeConcernsToday = concernsToday.filter(c => c.status !== "Resolved");
-      const resolvedConcernsToday = concernsToday.filter(c => c.status === "Resolved");
+      const historySearchValue = el("historySearch")
+    ? el("historySearch").value.toLowerCase().trim()
+  : "";
+
+const resolvedConcernsToday = historySearchValue
+  ? state.concerns.filter(c =>
+      c.status === "Resolved" &&
+      `${c.title} ${c.note} ${c.bucket} ${c.date}`
+        .toLowerCase()
+        .includes(historySearchValue)
+    )
+  : concernsToday.filter(c => c.status === "Resolved");
 
       renderStats(tasksToday, activeConcernsToday);
       renderTasks(tasksToday);
       renderConcerns(activeConcernsToday);
       renderResolvedConcerns(resolvedConcernsToday);
-filterResolvedHistory();
       renderRecentDone();
       renderTemplate(tasksToday, activeConcernsToday, resolvedConcernsToday);
       drawChart();
