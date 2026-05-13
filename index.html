@@ -521,10 +521,19 @@
     </div>
 
     <div class="grid" style="grid-template-columns:1fr 1fr; margin-top:18px;">
-      <div class="card section">
-        <h2>Resolved Concerns</h2>
-        <div class="list" id="resolvedConcernList" style="max-height:260px;"></div>
-      </div>
+     <div class="card section">
+  <h2>Resolved Concerns</h2>
+
+  <input 
+    type="text" 
+    id="historySearch" 
+    class="input"
+    placeholder="Search resolved concerns by title, notes, bucket, or keyword..."
+    oninput="filterResolvedHistory()"
+  />
+
+  <div class="list" id="resolvedConcernList" style="max-height:260px;"></div>
+</div>
 
       <div class="card section">
         <h2>Date Template</h2>
@@ -1164,7 +1173,26 @@
         </div>
       `).join("");
     }
+function filterResolvedHistory() {
+  const searchInput = el("historySearch");
+  if (!searchInput) return;
 
+  const searchValue = searchInput.value.toLowerCase();
+
+  const resolvedItems = document.querySelectorAll(
+    "#resolvedConcernList .resolved-item"
+  );
+
+  resolvedItems.forEach(item => {
+    const text = item.innerText.toLowerCase();
+
+    if (text.includes(searchValue)) {
+      item.style.display = "";
+    } else {
+      item.style.display = "none";
+    }
+  });
+}
     function render(){
       saveState();
       el("selectedDate").value = state.selectedDate;
@@ -1178,6 +1206,7 @@
       renderTasks(tasksToday);
       renderConcerns(activeConcernsToday);
       renderResolvedConcerns(resolvedConcernsToday);
+filterResolvedHistory();
       renderRecentDone();
       renderTemplate(tasksToday, activeConcernsToday, resolvedConcernsToday);
       drawChart();
