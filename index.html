@@ -1349,5 +1349,34 @@ const resolvedConcernsToday = historySearchValue
     render();
     setInterval(renderTimeTable, 1000);
   </script>
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAIbicKrpp65XcTjO0hEutQAhPwpQFOeGs",
+    authDomain: "task-list-65591.firebaseapp.com",
+    projectId: "task-list-65591",
+    storageBucket: "task-list-65591.firebasestorage.app",
+    messagingSenderId: "654593976997",
+    appId: "1:654593976997:web:89d5755384b1999bb93b4c"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+window.db = db;
+window.collection = collection;
+window.addDoc = addDoc;
+window.getDocs = getDocs;
+</script>
 </body>
 </html>
