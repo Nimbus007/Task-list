@@ -423,7 +423,18 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div id="loginScreen" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f8fafc;padding:20px;">
+  <div class="card section" style="width:100%;max-width:420px;">
+    <h2>Admin Login</h2>
+    <div class="stack">
+      <input class="input" id="loginEmail" type="email" placeholder="Email">
+      <input class="input" id="loginPassword" type="password" placeholder="Password">
+      <button class="btn" id="loginBtn">Login</button>
+      <div id="loginError" class="small" style="color:#b91c1c;"></div>
+    </div>
+  </div>
+</div>
+  <div class="wrap" id="appWrap" style="display:none;">
     <div class="topbar">
       <div>
         <h1>Daily Task & Concern Tracker</h1>
@@ -1431,6 +1442,29 @@ window.db = db;
 window.collection = collection;
 window.addDoc = addDoc;
 window.getDocs = getDocs;
+    const loginScreen = document.getElementById("loginScreen");
+const appWrap = document.getElementById("appWrap");
+
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    document.getElementById("loginError").textContent = err.message;
+  }
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loginScreen.style.display = "none";
+    appWrap.style.display = "block";
+  } else {
+    loginScreen.style.display = "flex";
+    appWrap.style.display = "none";
+  }
+});
 </script>
 </body>
 </html>
