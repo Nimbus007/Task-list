@@ -1197,6 +1197,7 @@
 
     function render(){
       saveState();
+      autoSyncToCloud();
       el("selectedDate").value = state.selectedDate;
 
       const taskSearchValue = el("taskSearch") ? el("taskSearch").value.toLowerCase().trim() : "";
@@ -1338,7 +1339,9 @@ const resolvedConcernsToday = historySearchValue
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#39;");
     }
-async function uploadToCloud() {
+async function uploadToCloud(showAlert = true) {
+  if (!auth.currentUser) return;
+
   const backupData = {
     state: state,
     uploadedAt: new Date().toISOString()
@@ -1346,7 +1349,9 @@ async function uploadToCloud() {
 
   await addDoc(collection(db, "users", auth.currentUser.uid, "dashboardBackups"), backupData);
 
-  alert("Local dashboard data uploaded to Firebase Cloud.");
+  if (showAlert) {
+    alert("Local dashboard data uploaded to Firebase Cloud.");
+  }
 }
 
 async function loadFromCloud() {
@@ -1380,6 +1385,20 @@ async function loadFromCloud() {
 
   alert("Latest cloud backup loaded.");
 }
+    let autoSyncTimer = null;
+
+function autoSyncToCloud() {
+  clearTimeout(autoSyncTimer);
+
+  autoSyncTimer = setTimeout(async () => {
+    try {
+      await uploadToCloud(false);
+      console.log("Auto sync completed.");
+    } catch (err) {
+      console.error("Auto sync failed:", err);
+    }
+  }, 3000);
+}
     window.toggleTask = toggleTask;
     window.deleteTask = deleteTask;
     window.deleteConcern = deleteConcern;
@@ -1407,14 +1426,7 @@ el("logoutBtn").addEventListener("click", async () => {
 
     render();
     setInterval(renderTimeTable, 1000);
-    setInterval(async () => {
-  try {
-    await uploadToCloud();
-    console.log("Auto cloud sync completed.");
-  } catch (err) {
-    console.error("Auto sync failed:", err);
-  }
-}, 300000);
+   
   </script>
   <script type="module">
   // Import the functions you need from the SDKs you need
