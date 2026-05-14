@@ -448,6 +448,7 @@
         <button class="btn secondary" id="downloadBtn">Download Data</button>
         <button class="btn secondary" id="uploadCloudBtn">Upload to Cloud</button>
 <button class="btn secondary" id="loadCloudBtn">Load from Cloud</button>
+        <button class="btn secondary" id="logoutBtn">Sign Out</button>
       </div>
     </div>
 
@@ -1395,7 +1396,9 @@ async function loadFromCloud() {
     el("downloadBtn").addEventListener("click", downloadData);
     el("uploadCloudBtn").addEventListener("click", uploadToCloud);
 el("loadCloudBtn").addEventListener("click", loadFromCloud);
-
+el("logoutBtn").addEventListener("click", async () => {
+  await signOut(auth);
+});
     el("taskBucket").value = "Opendental";
     el("concernBucket").value = "Opendental";
     el("timeHint").textContent = `Open and ongoing only • ${nowTime()}`;
