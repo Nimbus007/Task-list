@@ -435,6 +435,8 @@
           <input id="selectedDate" type="date" style="border:none;outline:none;font:inherit;background:transparent;">
         </div>
         <button class="btn secondary" id="downloadBtn">Download Data</button>
+        <button class="btn secondary" id="uploadCloudBtn">Upload to Cloud</button>
+<button class="btn secondary" id="loadCloudBtn">Load from Cloud</button>
       </div>
     </div>
 
@@ -1324,7 +1326,46 @@ const resolvedConcernsToday = historySearchValue
         .replaceAll('"',"&quot;")
         .replaceAll("'","&#39;");
     }
+async function uploadToCloud() {
+  const backupData = {
+    state: state,
+    uploadedAt: new Date().toISOString()
+  };
 
+  await addDoc(collection(db, "dashboardBackups"), backupData);
+
+  alert("Local dashboard data uploaded to Firebase Cloud.");
+}
+
+async function loadFromCloud() {
+  const snapshot = await getDocs(collection(db, "dashboardBackups"));
+
+  if (snapshot.empty) {
+    alert("No cloud backup found.");
+    return;
+  }
+
+  let latestBackup = null;
+
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+
+    if (!latestBackup || data.uploadedAt > latestBackup.uploadedAt) {
+      latestBackup = data;
+    }
+  });
+
+  if (!latestBackup || !latestBackup.state) {
+    alert("Cloud backup is empty or invalid.");
+    return;
+  }
+
+  state = latestBackup.state;
+  saveState();
+  render();
+
+  alert("Latest cloud backup loaded.");
+}
     window.toggleTask = toggleTask;
     window.deleteTask = deleteTask;
     window.deleteConcern = deleteConcern;
@@ -1341,6 +1382,8 @@ const resolvedConcernsToday = historySearchValue
     el("addTaskBtn").addEventListener("click", addTask);
     el("addConcernBtn").addEventListener("click", addConcern);
     el("downloadBtn").addEventListener("click", downloadData);
+    el("uploadCloudBtn").addEventListener("click", uploadToCloud);
+el("loadCloudBtn").addEventListener("click", loadFromCloud);
 
     el("taskBucket").value = "Opendental";
     el("concernBucket").value = "Opendental";
