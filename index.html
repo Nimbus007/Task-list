@@ -1344,13 +1344,15 @@ async function uploadToCloud() {
     uploadedAt: new Date().toISOString()
   };
 
-  await addDoc(collection(db, "dashboardBackups"), backupData);
+  await addDoc(collection(db, "users", auth.currentUser.uid, "dashboardBackups"), backupData);
 
   alert("Local dashboard data uploaded to Firebase Cloud.");
 }
 
 async function loadFromCloud() {
-  const snapshot = await getDocs(collection(db, "dashboardBackups"));
+  const snapshot = await getDocs(
+  collection(db, "users", auth.currentUser.uid, "dashboardBackups")
+);
 
   if (snapshot.empty) {
     alert("No cloud backup found.");
