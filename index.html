@@ -1395,6 +1395,12 @@ el("loadCloudBtn").addEventListener("click", loadFromCloud);
   <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+    import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
   import {
   getFirestore,
   collection,
@@ -1415,7 +1421,12 @@ el("loadCloudBtn").addEventListener("click", loadFromCloud);
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+const auth = getAuth(app);
 
+window.auth = auth;
+window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+window.onAuthStateChanged = onAuthStateChanged;
+window.signOut = signOut;
 window.db = db;
 window.collection = collection;
 window.addDoc = addDoc;
